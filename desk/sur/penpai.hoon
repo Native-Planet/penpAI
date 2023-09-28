@@ -1,11 +1,11 @@
 |%
 +$  who      $?(%system %user %assistant)
-+$  msg      [who=@t what=@t]
++$  msg      [=who what=@t]
 +$  msgs     (list msg)
 +$  name     @tas
 +$  chat     [id=@t =name]
 ::
-+$  chats  (jar chat msgs)
++$  chats  (jar chat msg)
 ::
 +$  penpai-act
   $%  [%new =chat =msgs]

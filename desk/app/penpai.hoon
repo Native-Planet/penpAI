@@ -39,41 +39,32 @@
     ^-  (quip card _this)
     ?-    -.act
         %post
-        ~&  >  'post'  !!
-      ::=/  =path
-        ::/(scot %p host.gid.hut.act)/[name.gid.hut.act]
-      ::?.  =(our.bol host.gid.hut.act)
-        :::_  this
-        :::~  (~(poke pass:io path) [host.gid.hut.act %hut] [mark vase])
-        ::==
-      ::=/  =msgs  (~(get ja msg-jar) hut.act)
-      ::=.  msgs
-        ::?.  (lte 50 (lent msgs))
-          ::[msg.act msgs]
-        ::[msg.act (snip msgs)]
-      :::_  this(msg-jar (~(put by msg-jar) hut.act msgs))
-      :::~  (fact:io hut-did+vase path /all ~)
-      ::==
+        ::~&  >  'post' 
+      =/  =path
+        /[id.chat.act]/[name.chat.act]
+      :_  this(chats (~(add ja chats) chat.act msg.act))
+      :~  (fact:io penpai-did+vase path /all ~)
+        [%pass / %arvo %l %spit /'chat.sock' %chat [chat.act (flop `(list)`(~(get by chats) chat.act))]] 
+      == 
     ::
         %new
-        ~&  >  ['new' act]  
+        ::~&  >  ['new' act]  
       =/  =path
-        /(scot %p id.chat.act)/[name.chat.act]
+        /[id.chat.act]/[name.chat.act]
+        ~&  msgs.act
       :-  :~  (fact:io penpai-did+vase path /all ~)
           ==
-      this(chats (~(add ja chats) chat.act msgs.act))
+      this(chats (~(add ja chats) chat.act &1.msgs.act))
     ::
         %del
-        ~&  >  'del'  !!
-      ::?>  =(our.bol host.gid.hut.act)
-      ::=/  =path
-        ::/(scot %p host.gid.hut.act)/[name.gid.hut.act]
-      :::-  :~  (fact:io hut-did+vase path /all ~)
-          ::==
-      ::%=  this
-        ::huts     (~(del ju huts) gid.hut.act name.hut.act)
-        ::msg-jar  (~(del by msg-jar) hut.act)
-      ::==
+        ::~&  >  'del' 
+      =/  =path
+        /[id.chat.act]/[name.chat.act]
+      :-  :~  (fact:io penpai-did+vase path /all ~)
+          ==
+      %=  this
+        chats  (~(del by chats) chat.act)
+      ==
     ==
   --
 ::
@@ -121,7 +112,14 @@
     [%connect ~]     ((slog 'socket connected' ~) `this)
     [%disconnect ~]  ((slog 'socket disconnected' ~) `this)
     [%error *]       ((slog leaf+"socket {(trip ;;(@t noun.sign))}" ~) `this)
-    [%chat *]        ((slog 'chat!' ~) `this)
+    [%chat *]  
+      =/  data=[chat=[@t @t] msg=[who @t]]  ;;([[@t @t] [who @t]] noun.sign)
+      =/  =path
+        /[-.chat.data]/[+.chat.data]
+        ~&  >>>  path
+      :_  this(chats (~(add ja chats) -.data +.data))
+      :~  (fact:io penpai-did+!>(data) path ~[/all])
+      ==
   ==
 ++  on-fail  on-fail:def
 --
