@@ -4,7 +4,7 @@
 +$  versioned-state
   $%  state-0
   ==
-+$  state-0  [%0 =chats]
++$  state-0  [%0 =chats connected=?]
 +$  card  card:agent:gall
 --
 ::
@@ -42,9 +42,12 @@
         ::~&  >  'post' 
       =/  =path
         /[id.chat.act]/[name.chat.act]
+      ?.  connected  ~&  >>>  "lick socket not connected"  !!
+      =/  =msgs  (~(get ja chats) chat.act)
+      =.  msgs  (flop [i=msg.act t=msgs])
       :_  this(chats (~(add ja chats) chat.act msg.act))
       :~  (fact:io penpai-did+vase path /all ~)
-        [%pass / %arvo %l %spit /'chat.sock' %chat [chat.act (flop `(list)`(~(get by chats) chat.act))]] 
+        [%pass / %arvo %l %spit /'chat.sock' %chat [chat.act msgs]] 
       == 
     ::
         %new
@@ -109,14 +112,20 @@
   ^-  (quip card _this)
   ?.  ?=([%lick %soak *] sign)  (on-arvo:def +<)
   ?+    [mark noun]:sign        (on-arvo:def +<)
-    [%connect ~]     ((slog 'socket connected' ~) `this)
-    [%disconnect ~]  ((slog 'socket disconnected' ~) `this)
+    [%connect ~]     
+      ~&  'socket connected' 
+      :-  ~
+      this(connected %.y)
+    [%disconnect ~]  
+      ~&  'socket disconnected'
+      :-  ~ 
+      this(connected %.n)
     [%error *]       ((slog leaf+"socket {(trip ;;(@t noun.sign))}" ~) `this)
     [%chat *]  
       =/  data=[chat=[@t @t] msg=[who @t]]  ;;([[@t @t] [who @t]] noun.sign)
       =/  =path
         /[-.chat.data]/[+.chat.data]
-        ~&  >>>  path
+      ~&  >  +.data
       :_  this(chats (~(add ja chats) -.data +.data))
       :~  (fact:io penpai-did+!>(data) path ~[/all])
       ==

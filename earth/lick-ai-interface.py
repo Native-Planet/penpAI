@@ -26,7 +26,8 @@ def ask_openai(noun_chat):
         "max_tokens": 4000,
         "messages": []
     }
-    while(noun_chat.head != 0):
+    while(deep(noun_chat)):# and noun != 0): # and noun_chat.head != 0):
+        #print(noun_chat)
         cur_chat = noun_chat.head
         noun_chat = noun_chat.tail
 
@@ -39,7 +40,7 @@ def ask_openai(noun_chat):
         
         data["messages"].append(chat)
 
-    print(data)
+    #print(data)
     
 
     response = requests.post(API_ENDPOINT, headers=headers, data=json.dumps(data))
