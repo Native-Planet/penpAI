@@ -1,11 +1,12 @@
 :~
   title+'penpAI'
   info+'Your local AI penpal'
-  color+0x7c.afc2
+  color+0x2c.3a2e
   version+[0 1 1]
   website+'https://urbit.org'
   license+'MIT'
   base+'penpai'
+  image+'https://nyc3.digitaloceanspaces.com/mopfel-winrux-s3/mopfel-winrux/2023.9.30..01.38.01-penpai4.png'
   :+  %glob-http
     'https://m.tinnus-napbus.xyz/pub/hut-glob-0v2.5dmm5.nhie8.81nnk.9dm67.6t1ai.glob'
   0v2.5dmm5.nhie8.81nnk.9dm67.6t1ai
