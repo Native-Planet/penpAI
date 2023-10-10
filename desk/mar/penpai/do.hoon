@@ -1,25 +1,19 @@
 /-  *penpai
-|_  a=penpai-act
+|_  d=do
 ++  grow
   |%
-  ++  noun  a
+  ++  noun  d
   --
 ++  grab
   |%
-  ++  noun  penpai-act
+  ++  noun  do
   ++  json
     =,  dejs:format
-    |=  jon=json
-    |^  ^-  penpai-act
-    %.  jon
     %-  of
-    :~  new+(ot ~[chat+de-chat msgs+(ar de-msg)])
-        post+(ot ~[chat+de-chat msg+de-msg])
-        del+(ot ~[chat+de-chat])
+    :~  del+(ot name+so ~)
+        new+(ot name+so prompt+so ~)
+        post+(ot name+so who+(su (cold %user (jest 'user'))) what+so ~)
     ==
-    ++  de-msg  (ot ~[who+so what+so])
-    ++  de-chat  (ot ~[id+so name+so])
-    --
   --
 ++  grad  %noun
 --

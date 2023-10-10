@@ -1,20 +1,23 @@
 |%
-+$  who      $?(%system %user %assistant)
-+$  msg      [=who what=@t]
-+$  msgs     (list msg)
-+$  name     @tas
-+$  chat     [id=@t =name]
++$  who     ?(%system %user %assistant)
++$  msg     [=who what=@t]
++$  msgs    ((mop @da msg) gth)
++$  name    @t
++$  prompt  @t
++$  when    @da
 ::
-+$  chats  (jar chat msg)
++$  chat   [=prompt =msgs]
++$  chats  (map name chat)
 ::
-+$  penpai-act
-  $%  [%new =chat =msgs]
-      [%post =chat =msg]
-      [%del =chat]
++$  do
+  $%  [%new =name =prompt]
+      [%post =name msg]
+      [%del =name]
   ==
-+$  penpai-upd
-  $%  [%init =chats]
-      [%init-all =chats]
-      penpai-act
++$  did
+  $%  [%init chats=(list [=name =prompt msgs=(list [=when msg])])]
+      [%new =name =prompt]
+      [%post =name =when msg]
+      [%del =name]
   ==
 --

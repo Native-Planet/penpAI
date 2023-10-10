@@ -7,7 +7,7 @@ import json
 import sys
 import requests
 
-API_ENDPOINT = "http://np-server.local:3001/v1/chat/completions"
+API_ENDPOINT = "http://localhost:3001/v1/chat/completions"
 
 def cue_noun(data):
     x = cue(int.from_bytes(data[5:], 'little'))
@@ -26,8 +26,7 @@ def ask_openai(noun_chat):
         "max_tokens": 4000,
         "messages": []
     }
-    while(deep(noun_chat)):# and noun != 0): # and noun_chat.head != 0):
-        #print(noun_chat)
+    while(noun_chat != 0):
         cur_chat = noun_chat.head
         noun_chat = noun_chat.tail
 
@@ -40,7 +39,7 @@ def ask_openai(noun_chat):
         
         data["messages"].append(chat)
 
-    #print(data)
+    print(data)
     
 
     response = requests.post(API_ENDPOINT, headers=headers, data=json.dumps(data))
@@ -73,7 +72,7 @@ def newt_jam(noun_data):
     return newt_data
 
 sock_name = '/penpai/chat.sock'
-pier_path = '/home/amadeo/urbit/zod/'
+pier_path = '/home/mike/piers/zod/'
 
 sock_path = pier_path+'.urb/dev/'+sock_name
 print(sock_path)

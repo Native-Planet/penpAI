@@ -1,37 +1,40 @@
 /-  *penpai
-/+  *etch
-|_  u=penpai-upd
+|_  d=did
 ++  grow
   |%
-  ++  noun  u
+  ++  noun  d
   ++  json
     =,  enjs:format
-    ^-  ^json
-    ?-    -.u
-        %new
-      %+  frond  'new'
-      (en-vase !>(+.u))
+    |^  ^-  ^json
+    ?-  -.d
+      %new   (frond %new (pairs name+s+name.d prompt+s+prompt.d ~))
+      %del   (frond %del s+name.d)
+      %init  (frond %init a+(turn chats.d chat))
+      %post  %+  frond  %post
+             %-  pairs
+             :~  name+s+name.d
+                 when+(time when.d)
+                 who+s+who.d
+                 what+s+what.d
+    ==       ==
     ::
-        %post
-      %+  frond  'post'
-      (en-vase !>(+.u))
+    ++  chat
+      |=  [=name =prompt msgs=(list [=when msg])]
+      ^-  ^json
+      :-  %a
+      :~  s+name
+          (pairs prompt+s+prompt msgs+a+(turn msgs msg-item) ~)
+      ==
     ::
-        %del
-      %+  frond  'del'
-      (en-vase !>(+.u))
-    ::
-        %init
-      %+  frond  'init'
-      (en-vase !>(+.u))
-    ::
-        %init-all
-      %+  frond  'initAll'
-      (en-vase !>(+.u))
-    ==
+    ++  msg-item
+      |=  [=when msg]
+      ^-  ^json
+      (pairs when+(time when) who+s+who what+s+what ~)
+    --
   --
 ++  grab
   |%
-  ++  noun  penpai-upd
+  ++  noun  did
   --
 ++  grad  %noun
 --
