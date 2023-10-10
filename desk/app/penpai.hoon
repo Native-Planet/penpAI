@@ -4,7 +4,7 @@
 +$  versioned-state
   $%  state-0
   ==
-+$  state-0  [%0 =chats]
++$  state-0  [%0 =chats connected=?]
 +$  card  card:agent:gall
 ++  orm  ((on @da msg) gth)
 --
@@ -45,6 +45,7 @@
   ::
       %post
     =/  =chat  (~(got by chats) name.do)
+    ?.  connected  ~&  >>>  "lick socket not connected"  !!
     =/  =time  (from-unix-ms:chrono:userlib (unm:chrono:userlib now.bol))
     =.  msgs.chat  (put:orm msgs.chat time who.do what.do)
     =.  chats  (~(put by chats) name.do chat)
@@ -83,8 +84,14 @@
   ^-  (quip card _this)
   ?.  ?=([%lick %soak *] sign)  (on-arvo:def +<)
   ?+    mark.sign  (on-arvo:def +<)
-      %connect     ((slog 'socket connected' ~) `this)
-      %disconnect  ((slog 'socket disconnected' ~) `this)
+      %connect     
+    ~&  'socket connected'
+    :-  ~
+    this(connected %.y)
+      %disconnect
+    ~&  'socket disconnected'
+    :-  ~
+    this(connected %.n)
       %error       ((slog leaf+"socket {(trip ;;(@t noun.sign))}" ~) `this)
       %chat  
     =+  ;;([=name =msg] noun.sign)
