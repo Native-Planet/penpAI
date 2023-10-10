@@ -6,6 +6,7 @@
   ==
 +$  state-0  [%0 =chats connected=?]
 +$  card  card:agent:gall
+++  orm  ((on @da msg) gth)
 --
 ::
 %-  agent:dbug
@@ -30,106 +31,82 @@
 ::
 ++  on-poke
   |=  [=mark =vase]
-  |^  ^-  (quip card _this)
-  ?>  ?=(%penpai-do mark)
-  ?.  =(our.bol src.bol)  !!
-    (local !<(penpai-act vase))
-  ++  local
-    |=  act=penpai-act
-    ^-  (quip card _this)
-    ?-    -.act
-        %post
-        ::~&  >  'post' 
-      =/  =path
-        /[id.chat.act]/[name.chat.act]
-      ?.  connected  ~&  >>>  "lick socket not connected"  !!
-      =/  =msgs  (~(get ja chats) chat.act)
-      =.  msgs  (flop [i=msg.act t=msgs])
-      :_  this(chats (~(add ja chats) chat.act msg.act))
-      :~  (fact:io penpai-did+vase path /all ~)
-        [%pass / %arvo %l %spit /'chat.sock' %chat [chat.act msgs]] 
-      == 
-    ::
-        %new
-        ::~&  >  ['new' act]  
-      =/  =path
-        /[id.chat.act]/[name.chat.act]
-        ~&  msgs.act
-      :-  :~  (fact:io penpai-did+vase path /all ~)
-          ==
-      this(chats (~(add ja chats) chat.act &1.msgs.act))
-    ::
-        %del
-        ::~&  >  'del' 
-      =/  =path
-        /[id.chat.act]/[name.chat.act]
-      :-  :~  (fact:io penpai-did+vase path /all ~)
-          ==
-      %=  this
-        chats  (~(del by chats) chat.act)
-      ==
-    ==
-  --
-::
-++  on-agent  on-agent:def
-::
-++  on-watch  ::on-watch:def
-  |=  =path
   ^-  (quip card _this)
-  ?:  ?=([%all ~] path)
-    ?>  =(our.bol src.bol)
+  ?>  ?=(%penpai-do mark)
+  ?>  =(our.bol src.bol)
+  =+  !<(=do vase)
+  ?-    -.do
+      %new
+    ?<  (~(has by chats) name.do)
+    =.  chats  (~(put by chats) name.do prompt.do ~)
     :_  this
-    :~  %-  fact-init:io
-        penpai-did+!>(`penpai-upd`[%init-all chats])
+    :~  (fact:io penpai-did+vase /all ~)
     ==
-  `this
-::
-++  on-leave  on-leave:def
-::
-++  on-peek  
-  |=  =path
-  ^-  (unit (unit cage))
-  ?+    path  (on-peek:def path)
   ::
-      [%x %titles ~]
-    :^  ~  ~  %json
-    !>  ^-  json
-    :-  %a
-    %+  turn
-      ~(tap in ~(key by chats))
-    |=  [id=@ name=@tas]
-    ^-  json
-    %-  pairs:enjs:format
-    :~  :-  'chat'
-        %-  pairs:enjs:format
-        :~  ['id' s+id]
-            ['name' s+name]
-        ==
+      %post
+    =/  =chat  (~(got by chats) name.do)
+    ?.  connected  ~&  >>>  "lick socket not connected"  !!
+    =/  =time  (from-unix-ms:chrono:userlib (unm:chrono:userlib now.bol))
+    =.  msgs.chat  (put:orm msgs.chat time who.do what.do)
+    =.  chats  (~(put by chats) name.do chat)
+    =/  note=note-arvo
+      :^  %l  %spit  /'chat.sock'
+      ^-  [^mark name (list msg)]
+      :^  %chat  name.do  [%system prompt.chat]
+      (flop (turn (tap:orm msgs.chat) |=([=when =msg] msg)))
+    :_  this
+    :~  (fact:io penpai-did+!>(`did`[%post name.do time who.do what.do]) /all ~)
+        (~(arvo pass:io /spit) note)
+    == 
+  ::
+      %del
+    :_  this(chats (~(del by chats) name.do))
+    :~  (fact:io penpai-did+vase /all ~)
     ==
   ==
+::
+++  on-watch
+  |=  =path
+  ^-  (quip card _this)
+  ?>  =(our.bol src.bol)
+  ?>  ?=([%all ~] path)
+  =/  initial
+    %+  turn  ~(tap by chats)
+    |=  [=name =prompt =msgs]
+    ^-  [=^name =^prompt msgs=(list [=when msg])]
+    [name prompt (flop (tap:orm msgs))]
+  :_  this
+  :~  (fact-init:io penpai-did+!>(`did`[%init initial]))
+  ==
+::
 ++  on-arvo
   |=  [=wire sign=sign-arvo]
   ^-  (quip card _this)
   ?.  ?=([%lick %soak *] sign)  (on-arvo:def +<)
-  ?+    [mark noun]:sign        (on-arvo:def +<)
-    [%connect ~]     
-      ~&  'socket connected' 
-      :-  ~
-      this(connected %.y)
-    [%disconnect ~]  
-      ~&  'socket disconnected'
-      :-  ~ 
-      this(connected %.n)
-    [%error *]       ((slog leaf+"socket {(trip ;;(@t noun.sign))}" ~) `this)
-    [%chat *]  
-      =/  data=[chat=[@t @t] msg=[who @t]]  ;;([[@t @t] [who @t]] noun.sign)
-      =/  =path
-        /[-.chat.data]/[+.chat.data]
-      ~&  >  +.data
-      :_  this(chats (~(add ja chats) -.data +.data))
-      :~  (fact:io penpai-did+!>(data) path ~[/all])
-      ==
+  ?+    mark.sign  (on-arvo:def +<)
+      %connect     
+    ~&  'socket connected'
+    :-  ~
+    this(connected %.y)
+      %disconnect
+    ~&  'socket disconnected'
+    :-  ~
+    this(connected %.n)
+      %error       ((slog leaf+"socket {(trip ;;(@t noun.sign))}" ~) `this)
+      %chat  
+    =+  ;;([=name =msg] noun.sign)
+    ?~  chat=(~(get by chats) name)
+      `this
+    =/  =time  (from-unix-ms:chrono:userlib (unm:chrono:userlib now.bol))
+    =.  msgs.u.chat  (put:orm msgs.u.chat time msg)
+    :_  this(chats (~(put by chats) name u.chat))
+    :~  (fact:io penpai-did+!>(`did`[%post name time msg]) /all ~)
+    ==
   ==
-++  on-fail  on-fail:def
+::
+++  on-peek   on-peek:def
+++  on-agent  on-agent:def
+++  on-leave  on-leave:def
+++  on-fail   on-fail:def
 --
 
