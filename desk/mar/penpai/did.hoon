@@ -7,20 +7,29 @@
     =,  enjs:format
     |^  ^-  ^json
     ?-  -.d
-      %post  (frond %post (pairs chat+s+chat.d msg+(msg msg.d) ~))
-      %del   (frond %del s+chat.d)
-      %init  (frond %init a+(turn ~(tap by chats.d) chat))
-    ==
+      %new   (frond %new (pairs name+s+name.d prompt+s+prompt.d ~))
+      %del   (frond %del s+name.d)
+      %init  (frond %init a+(turn chats.d chat))
+      %post  %+  frond  %post
+             %-  pairs
+             :~  name+s+name.d
+                 when+(time when.d)
+                 who+s+who.d
+                 what+s+what.d
+    ==       ==
     ::
     ++  chat
-      |=  [=^chat =msgs]
+      |=  [=name =prompt msgs=(list [=when msg])]
       ^-  ^json
-      (pairs chat+s+chat msgs+a+(turn msgs msg) ~)
+      :-  %a
+      :~  s+name
+          (pairs prompt+s+prompt msgs+a+(turn msgs msg-item) ~)
+      ==
     ::
-    ++  msg
-      |=  =^msg
+    ++  msg-item
+      |=  [=when msg]
       ^-  ^json
-      (pairs who+s+who.msg what+s+what.msg ~)
+      (pairs when+(time when) who+s+who what+s+what ~)
     --
   --
 ++  grab

@@ -6,6 +6,7 @@
   ==
 +$  state-0  [%0 =chats]
 +$  card  card:agent:gall
+++  orm  ((on @da msg) gth)
 --
 ::
 %-  agent:dbug
@@ -35,16 +36,30 @@
   ?>  =(our.bol src.bol)
   =+  !<(=do vase)
   ?-    -.do
-      %post
-    =.  chats  (~(add ja chats) chat.do msg.do)
+      %new
+    ?<  (~(has by chats) name.do)
+    =.  chats  (~(put by chats) name.do prompt.do ~)
     :_  this
     :~  (fact:io penpai-did+vase /all ~)
-        %-  ~(arvo pass:io /spit)
-        [%l %spit /'chat.sock' %chat (~(get ja chats) chat.do)]
+    ==
+  ::
+      %post
+    =/  =chat  (~(got by chats) name.do)
+    =/  =time  (from-unix-ms:chrono:userlib (unm:chrono:userlib now.bol))
+    =.  msgs.chat  (put:orm msgs.chat time who.do what.do)
+    =.  chats  (~(put by chats) name.do chat)
+    =/  note=note-arvo
+      :^  %l  %spit  /'chat.sock'
+      ^-  [^mark name (list msg)]
+      :^  %chat  name.do  [%system prompt.chat]
+      (flop (turn (tap:orm msgs.chat) |=([=when =msg] msg)))
+    :_  this
+    :~  (fact:io penpai-did+!>(`did`[%post name.do time who.do what.do]) /all ~)
+        (~(arvo pass:io /spit) note)
     == 
   ::
       %del
-    :_  this(chats (~(del by chats) chat.do))
+    :_  this(chats (~(del by chats) name.do))
     :~  (fact:io penpai-did+vase /all ~)
     ==
   ==
@@ -54,8 +69,13 @@
   ^-  (quip card _this)
   ?>  =(our.bol src.bol)
   ?>  ?=([%all ~] path)
+  =/  initial
+    %+  turn  ~(tap by chats)
+    |=  [=name =prompt =msgs]
+    ^-  [=^name =^prompt msgs=(list [=when msg])]
+    [name prompt (flop (tap:orm msgs))]
   :_  this
-  :~  (fact-init:io penpai-did+!>(`did`[%init chats]))
+  :~  (fact-init:io penpai-did+!>(`did`[%init initial]))
   ==
 ::
 ++  on-arvo
@@ -67,14 +87,18 @@
       %disconnect  ((slog 'socket disconnected' ~) `this)
       %error       ((slog leaf+"socket {(trip ;;(@t noun.sign))}" ~) `this)
       %chat  
-    =+  ;;([=chat =msg] noun.sign)
-    :_  this(chats (~(add ja chats) chat msg))
-    :~  (fact:io penpai-did+!>(`did`[%post chat msg]) /all ~)
+    =+  ;;([=name =msg] noun.sign)
+    ?~  chat=(~(get by chats) name)
+      `this
+    =/  =time  (from-unix-ms:chrono:userlib (unm:chrono:userlib now.bol))
+    =.  msgs.u.chat  (put:orm msgs.u.chat time msg)
+    :_  this(chats (~(put by chats) name u.chat))
+    :~  (fact:io penpai-did+!>(`did`[%post name time msg]) /all ~)
     ==
   ==
 ::
-++  on-agent  on-agent:def
 ++  on-peek   on-peek:def
+++  on-agent  on-agent:def
 ++  on-leave  on-leave:def
 ++  on-fail   on-fail:def
 --

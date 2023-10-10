@@ -10,8 +10,9 @@
   ++  json
     =,  dejs:format
     %-  of
-    :~  post+(ot chat+so msg+(ot who+so what+so ~) ~)
-        del+(ot chat+so ~)
+    :~  del+(ot name+so ~)
+        new+(ot name+so prompt+so ~)
+        post+(ot name+so who+(su (cold %user (jest 'user'))) what+so ~)
     ==
   --
 ++  grad  %noun

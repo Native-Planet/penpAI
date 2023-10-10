@@ -1,17 +1,23 @@
 |%
-+$  who      ?(%system %user %assistant)
-+$  msg      [=who what=@t]
-+$  msgs     (list msg)
-+$  chat     @t
++$  who     ?(%system %user %assistant)
++$  msg     [=who what=@t]
++$  msgs    ((mop @da msg) gth)
++$  name    @t
++$  prompt  @t
++$  when    @da
 ::
-+$  chats  (jar chat msg)
++$  chat   [=prompt =msgs]
++$  chats  (map name chat)
 ::
 +$  do
-  $%  [%post =chat =msg]
-      [%del =chat]
+  $%  [%new =name =prompt]
+      [%post =name msg]
+      [%del =name]
   ==
 +$  did
-  $%  [%init =chats]
-      do
+  $%  [%init chats=(list [=name =prompt msgs=(list [=when msg])])]
+      [%new =name =prompt]
+      [%post =name =when msg]
+      [%del =name]
   ==
 --
