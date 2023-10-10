@@ -1,0 +1,50 @@
+/* The path depends on the current location of the scss file */
+@import "../../../node_modules/@chatscope/chat-ui-kit-styles/themes/default/variables";
+
+
+
+$white-100: #F1F2EE;
+
+$gray-100: #DDE3DF;
+$gray-200: #ABBAAE;
+$gray-300: #8FA393;
+$gray-400: #5C7060;
+
+$np-white:  #F8F8F6;
+$np-gray:   #E8E8E3;
+$np-black:  #313933;
+$np-yellow: #EDF02C;
+
+$np-dark-bg: #161D17;
+$np-dark-hl: #2C3A2E;
+
+$np-button-green: #08A317;
+$np-active-green: #D7DB0F;
+$np-status-green: #067510;
+
+$main-container-bg-color: $gray-400;
+$conversation-list-bg-color: $gray-100;
+
+$conversation-bg-color: $gray-100;
+$conversation-hover-bg-color: $gray-200;
+$conversation-header-bg-color: $gray-100;
+$conversation-header-user-name-bg-color: $gray-100;
+$conversation-header-info-bg-color: $gray-100;
+
+$chat-container-message-input-bg-color: $gray-100;
+$message-input-content-editor-wrapper-bg-color: $gray-200;
+$message-input-content-editor-bg-color: $gray-200;
+$message-input-content-editor-color: $np-white;
+
+$message-list-bg-color: $gray-200;
+
+$button-arrow-color: $gray-400;
+$button-send-color: $gray-400;
+$button-attachment-color: $gray-400;
+$button-color: $gray-400;
+
+
+$message-content-incoming-color: $np-white;
+$message-content-incoming-bg-color: $np-dark-bg;
+$message-content-outgoing-color: $np-white;
+$message-content-outgoing-bg-color: $np-dark-hl;

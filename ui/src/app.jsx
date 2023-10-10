@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import Urbit from '@urbit/http-api';
-import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import PureModal from 'react-pure-modal';
@@ -18,6 +17,8 @@ import {
   Sidebar,
   Button
 } from "@chatscope/chat-ui-kit-react";
+import './themes/default/main.scss';
+
 
 export function App() {
   const [subEvent, setSubEvent] = useState({});
@@ -30,6 +31,9 @@ export function App() {
   const [chatContainerStyle, setChatContainerStyle] = useState({});
   const [conversationContentStyle, setConversationContentStyle] = useState({});
   const [modal, setModal] = useState(false);
+	const root = document.documentElement;
+	document.body.style = 'background: #5C7060;';
+	
   
   const handleBackClick = () => {
     setCurrentChat(null);

@@ -16,7 +16,8 @@
     "@urbit/http-api": "github:urbit/js-http-api",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-pure-modal": "^2.2.5"
+    "react-pure-modal": "^2.2.5",
+    "sass": "^1.69.1"
   },
   "devDependencies": {
     "@urbit/vite-plugin-urbit": "^0.8.0",

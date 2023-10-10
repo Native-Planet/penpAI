@@ -7,7 +7,6 @@
   license+'MIT'
   base+'penpai'
   image+'https://nyc3.digitaloceanspaces.com/mopfel-winrux-s3/2023.9.30..02.05.41-penpai2-square.png'
-
   :+  %glob-http
     'https://m.tinnus-napbus.xyz/pub/globs/penpai-v0.1.0.glob'
   0vlhl13.pd1s1.ibfjq.38v9g.s84k7
