@@ -1,4 +1,4 @@
-/-  *penpai
+/-  *penpai, hark
 /+  default-agent, dbug, agentio
 |%
 +$  versioned-state
@@ -97,9 +97,19 @@
     =+  ;;([=name =msg] noun.sign)
     ?~  chat=(~(get by chats) name)
       `this
+    =/  hark-cards=(list card)
+      ?.  .^(? %gu /(scot %p our.bol)/hark/(scot %da now.bol)/$)
+        ~
+      =/  con=(list content:hark)  [(crip "New penpAI message in {(trip name)}") ~]
+      =/  =id:hark      (end 7 (shas %penpai-notification eny.bol))
+      =/  =rope:hark    [~ ~ q.byk.bol /(scot %p our.bol)/[dap.bol]]
+      =/  =action:hark  [%add-yarn & & id rope now.bol con /[dap.bol] ~]
+      =/  =cage         [%hark-action !>(action)]
+      [%pass /hark %agent [our.bol %hark] %poke cage]~
     =/  =time  (from-unix-ms:chrono:userlib (unm:chrono:userlib now.bol))
     =.  msgs.u.chat  (put:orm msgs.u.chat time msg)
     :_  this(chats (~(put by chats) name u.chat))
+    %+  weld  hark-cards
     :~  (fact:io penpai-did+!>(`did`[%post name time msg]) /all ~)
     ==
   ==
