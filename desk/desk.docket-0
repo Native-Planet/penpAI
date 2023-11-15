@@ -7,7 +7,7 @@
   license+'MIT'
   base+'penpai'
   image+'https://nyc3.digitaloceanspaces.com/mopfel-winrux-s3/2023.9.30..02.05.41-penpai2-square.png'
-  :+  %glob-http
-    'https://files.native.computer/llm/penpai-v0.9.1.glob'
-  0v3.b9jre.jnfd9.hr7l0.ci2lb.vei5c
+  :+  %glob-ames
+    ~nattyv
+  0v0
 ==

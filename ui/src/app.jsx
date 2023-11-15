@@ -103,6 +103,7 @@ export function App() {
   useEffect(() => {
     const updateFuns = {
       "init": (update) => {
+				console.log(update);
         setChats(new Map(update["chats"]));
 				if(update["conn"] === true) {
 					setConn("available");
@@ -132,6 +133,7 @@ export function App() {
       }
     };
 
+		console.log(subEvent);
     const eventTypes = Object.keys(subEvent);
     if (eventTypes.length > 0) {
       const eventType = eventTypes[0];
