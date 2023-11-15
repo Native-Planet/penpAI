@@ -15,6 +15,7 @@ import {
   Conversation,
   ConversationHeader,
   Sidebar,
+	Status,
   Button
 } from "@chatscope/chat-ui-kit-react";
 import './themes/default/main.scss';
@@ -23,6 +24,7 @@ import './themes/default/main.scss';
 export function App() {
   const [subEvent, setSubEvent] = useState({});
   const [chats, setChats] = useState(new Map());
+  const [conn, setConn] = useState("dnd");
   const [message, setMessage] = useState("");
   const [title, setTitle] = useState("");
   const [prompt, setPrompt] = useState("");
@@ -101,7 +103,16 @@ export function App() {
   useEffect(() => {
     const updateFuns = {
       "init": (update) => {
-        setChats(new Map(update));
+        setChats(new Map(update["chats"]));
+				if(update["conn"] === true) {
+					setConn("available");
+				} else
+					setConn("dnd");
+      }, "conn": (update) => {
+				if(update == true) {
+					setConn("available");
+				} else
+					setConn("dnd");
       }, "new": (update) => {
         let newChat = new Map(chats);
         newChat.set(update.name, {prompt: update.prompt, msgs: []});
@@ -179,6 +190,7 @@ export function App() {
         </form>
       </PureModal>
       <MainContainer className="max-w-4xl mx-auto">
+			<Status status={conn} />
         <Sidebar position="left" scrollable={false} style={sidebarStyle}>
           <ConversationList>
             {
@@ -213,6 +225,7 @@ export function App() {
             </ConversationHeader.Content>
           </ConversationHeader>
         </Sidebar>
+
         <ChatContainer style={chatContainerStyle}>
           <ConversationHeader>
             <ConversationHeader.Back onClick={handleBackClick} />
@@ -241,13 +254,16 @@ export function App() {
                 )
             }
           </MessageList>
-          <MessageInput
+{
+          (conn==="available" &&
+					<MessageInput
             attachButton={false}
             placeholder="Type message here"
             value={message}
             onChange={(txt) => setMessage(txt)}
             onSend={() => handleSend()}
-          />
+          /> )
+}
         </ChatContainer>
       </MainContainer>
     </div>

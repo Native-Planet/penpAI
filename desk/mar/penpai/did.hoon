@@ -9,14 +9,16 @@
     ?-  -.d
       %new   (frond %new (pairs name+s+name.d prompt+s+prompt.d ~))
       %del   (frond %del s+name.d)
-      %init  (frond %init a+(turn chats.d chat))
+      %init  (frond %init (pairs chats+a+(turn chats.d chat) conn+b+connected.d ~))
       %post  %+  frond  %post
              %-  pairs
              :~  name+s+name.d
                  when+(time when.d)
                  who+s+who.d
                  what+s+what.d
-    ==       ==
+             ==       
+      %conn  (frond %conn b+connected.d)
+    ==
     ::
     ++  chat
       |=  [=name =prompt msgs=(list [=when msg])]

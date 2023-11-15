@@ -71,10 +71,11 @@
   ?>  =(our.bol src.bol)
   ?>  ?=([%all ~] path)
   =/  initial
-    %+  turn  ~(tap by chats)
-    |=  [=name =prompt =msgs]
-    ^-  [=^name =^prompt msgs=(list [=when msg])]
-    [name prompt (flop (tap:orm msgs))]
+    :_  connected
+      %+  turn  ~(tap by chats)
+      |=  [=name =prompt =msgs]
+      ^-  [=^name =^prompt msgs=(list [=when msg])]
+      [name prompt (flop (tap:orm msgs))]
   :_  this
   :~  (fact-init:io penpai-did+!>(`did`[%init initial]))
   ==
@@ -86,12 +87,14 @@
   ?+    mark.sign  (on-arvo:def +<)
       %connect     
     ~&  'socket connected'
-    :-  ~
-    this(connected %.y)
+    :_  this(connected %.y)
+    :~  (fact:io penpai-did+!>(`did`[%conn connected=%.y]) /all ~)
+    ==
       %disconnect
     ~&  'socket disconnected'
-    :-  ~
-    this(connected %.n)
+    :_  this(connected %.n)
+    :~  (fact:io penpai-did+!>(`did`[%conn connected=%.n]) /all ~)
+    ==
       %error       ((slog leaf+"socket {(trip ;;(@t noun.sign))}" ~) `this)
       %chat  
     =+  ;;([=name =msg] noun.sign)

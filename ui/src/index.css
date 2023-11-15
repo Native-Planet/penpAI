@@ -4,3 +4,25 @@
 div.panel-body {
   border-radius: 0.5rem;
 }
+.status-indicator {
+  display: flex;
+  align-items: right;
+  justify-content: right;
+	/*background-color: #DDE3DF;*/
+	background-color: #DDE3DF;
+  /* Add more styling as needed */
+}
+
+.status-indicator .status-true {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: green;
+}
+
+.status-indicator .status-false {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: red;
+}

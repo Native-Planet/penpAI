@@ -15,9 +15,10 @@
       [%del =name]
   ==
 +$  did
-  $%  [%init chats=(list [=name =prompt msgs=(list [=when msg])])]
+  $%  [%init chats=(list [=name =prompt msgs=(list [=when msg])]) connected=?]
       [%new =name =prompt]
       [%post =name =when msg]
       [%del =name]
+      [%conn connected=?]
   ==
 --
